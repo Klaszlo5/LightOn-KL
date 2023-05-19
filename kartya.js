@@ -1,14 +1,12 @@
 class Kartya {
     #fajlnev;
     #divElem;
-    #imgElem;
     #allapot;
     #blokkolt;
     constructor(fajlnev, szuloElem){
         this.#fajlnev=fajlnev;
-        szuloElem.append('<div class="kartya"> <img src="" alt"kép"> </div>');
+        szuloElem.append('<div class="kartya"> </div>');
         this.#divElem=szuloElem.children("div:last-child");
-        this.#imgElem = this.#divElem.children("img");
         this.#allapot=allapot;
         const txt=`<div>${allapot}</div>`;
         szuloElem.append(txt);
@@ -16,18 +14,13 @@ class Kartya {
         this.#divElem.on("click", () => {
             this.kattintas();
             this.#kattintasTrigger();
-        });
-        {
-            this.#setLap();
-        } 
-        
-    }
-    setLap(){
-        if (this.#allapot){
-            this.#imgElem.attr("src",this.#fajlnev);
-        }else{
-            this.#imgElem.attr("src", "lampa1.jpg");
-        }
+        }); 
+        $(window).on("gameBlocked", () =>{
+            this.#blokkolt=true;
+        })
+        $(window).on("gameUnBlocked", () =>{
+            this.#blokkolt=false;
+        })
     }
     setAllapot(){
         this.#allapot=!this.#allapot;
@@ -35,9 +28,9 @@ class Kartya {
     }
     szinBeallit(){
         if (this.#allapot===false) {
-            $(`div`).css("background-color", "green");
+            $(`div`).css("color", "green");
         } else {
-            $(`div`).css("background-color", "orange");
+            $(`div`).css("color", "orange");
         }
     }
     kattintas(){
@@ -56,9 +49,6 @@ class Kartya {
     gedDivElem(){
         return this.#divElem;
     }
-   
-  
-    
 }
 
 export default Kartya;

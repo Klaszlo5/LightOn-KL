@@ -21,7 +21,6 @@ class JatekTer {
         $(window).on("kartyaKattintas", (event) => {
             this.#kivalasztottKartyaLista.push(event.detail);
             console.log(this.#kivalasztottKartyaLista);
-            this.#ellenorzes();
         })
     }
     setAllapotLista() {
@@ -41,7 +40,6 @@ class JatekTer {
     getlepes() {
         return this.#lepes;
     }
-
     getmeret() {
         return this.#meret;
     }
@@ -59,12 +57,14 @@ class JatekTer {
             const kartya = new Kartya(this.#KartyaLista[index], szuloElem);
         }
     }
-    #kever() {
-        this.#KartyaLista.sort(function () {
-            return 0.5 - Math.random();
-        });
+    #TriggerBlocked(){
+        window.dispatchEvent(new Event("gameBlocked"));
+        console.log("blockolt")
     }
-  
+    #TriggerUnBlocked(){
+        window.dispatchEvent(new Event("gameUnBlocked"));
+        console.log("unblockolt")
+    }
     kattintas() {
         this.#allapot = !this.#allapot;
         this.#setLap();
