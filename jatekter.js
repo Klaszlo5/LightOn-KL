@@ -1,70 +1,76 @@
 import Kartya from "./kartya.js";
 
 class JatekTer {
-    #KartyaLista=[];
-    #kivalasztottKartyaLista=[];
+    #KartyaLista = [];
+    #kivalasztottKartyaLista = [];
     #db;
     #allapotLista;
     #meret;
     #lepes;
-    constructor(kartyaLista){
-        this.#KartyaLista=kartyaLista;
+    constructor(kartyaLista) {
+        this.#KartyaLista = kartyaLista;
         this.#init();
         {
-            
+
         }
         const szuloElem = $("article");
-        const allapot =false;
+        const allapot = false;
         for (let i = 0; i < 9; i++) {
-            new Kartya(i,allapot,szuloElem);
+            new Kartya(i, allapot, szuloElem);
         }
-        }
-        setAllapotLista(){
-            this.#meret=Math.floor(Math.random());
-            for (let i = 0; i < this.#meret; i++) {
-            const random=Math.floor(Math.random() * 2) + 1;
-            if (random===1) {
-                this.#allapotLista[i]=false;
-            } else {
-                this.#allapotLista[i]=true;
-            }
-            }
+        $(window).on("kartyaKattintas", (event) => {
+            this.#kivalasztottKartyaLista.push(event.detail);
+            console.log(this.#kivalasztottKartyaLista);
+            this.#ellenorzes();
+        })
     }
-    getdb(){
+    setAllapotLista() {
+        this.#meret = Math.floor(Math.random());
+        for (let i = 0; i < this.#meret; i++) {
+            const random = Math.floor(Math.random() * 2) + 1;
+            if (random === 1) {
+                this.#allapotLista[i] = false;
+            } else {
+                this.#allapotLista[i] = true;
+            }
+        }
+    }
+    getdb() {
         return this.#db;
     }
-    getlepes(){
+    getlepes() {
         return this.#lepes;
     }
 
-    getmeret(){
+    getmeret() {
         return this.#meret;
     }
-    szomszedokKeresese(id){
-        if (this.#allapotLista[id]!=this.#allapotLista[id-1]&&this.#allapotLista[id]!=this.#allapotLista[id+1]) {
-            
+    szomszedokKeresese(id) {
+        if (this.#allapotLista[id] != this.#allapotLista[id - 1] && this.#allapotLista[id] != this.#allapotLista[id + 1]) {
+
         }
     }
-    #init(){
-        this.#kivalasztottKartyaLista=[];
+    #init() {
+        this.#kivalasztottKartyaLista = [];
         this.#kever();
-        const szuloElem=$("article");
+        const szuloElem = $("article");
         szuloElem.empty();
-        for (let index= 0;index<this.#KartyaLista.length; index++){
-            const kartya= new Kartya(this.#KartyaLista[index], szuloElem);
+        for (let index = 0; index < this.#KartyaLista.length; index++) {
+            const kartya = new Kartya(this.#KartyaLista[index], szuloElem);
         }
     }
-    #kever(){
-        this.#KartyaLista.sort(function(){
-            return 0.5-Math.random();
+    #kever() {
+        this.#KartyaLista.sort(function () {
+            return 0.5 - Math.random();
         });
     }
-    kattint(){
-        tolt();
+  
+    kattintas() {
+        this.#allapot = !this.#allapot;
+        this.#setLap();
     }
-    $(window).on("kattint",(event) => {
-
-    });
-    
+    eltuntet(){
+        this.#divElem.color("yellow")
+    }
 }
 export default JatekTer;
